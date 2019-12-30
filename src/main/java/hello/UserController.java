@@ -51,4 +51,15 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/user/search")
+    public List<User> searchUser(@RequestParam(value = "query") String query) {
+        List<User> result = new ArrayList<User>();
+        for(User currentUser: this.userList) {
+            if (currentUser.getName().contains(query)) {
+                result.add(currentUser);
+            }
+        }
+        return result;
+    }
+
 }
