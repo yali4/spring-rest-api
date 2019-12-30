@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -26,6 +25,13 @@ public class UserController {
     @RequestMapping("/user")
     public List<User> getAllUser() {
         return users;
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public void addSingleUser(@RequestParam(value="name") String name, @RequestParam(value = "age") int age ) {
+        int userCount = this.users.size();
+        User user = new User(userCount + 1, name, age);
+        this.users.add(user);
     }
 
     @RequestMapping("/user/{id}")
