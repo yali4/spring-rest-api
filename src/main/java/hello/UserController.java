@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 import hello.Repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class UserController {
@@ -34,6 +37,11 @@ public class UserController {
                 break;
             }
         }
+
+        if (result == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
+        }
+
         return result;
     }
 
@@ -49,6 +57,9 @@ public class UserController {
 
     @RequestMapping("/user/search")
     public List<User> searchUser(@RequestParam(value = "query") String query) {
+        if (query.isBlank() || query.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Search Query Can Not be Empty!");
+        }
         List<User> result = new ArrayList<User>();
         for(User currentUser: this.users) {
             if (currentUser.getName().contains(query)) {
