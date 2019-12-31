@@ -13,7 +13,7 @@ public class RateController {
     @RequestMapping("/rate")
     public List<ExchangeRate> getRates() {
         ExchangeRateService service = new ExchangeRateService();
-        return service.getRates();
+        return service.getRatesViaURLConnection();
     }
 
 }
