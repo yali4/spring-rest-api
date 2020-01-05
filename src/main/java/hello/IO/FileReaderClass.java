@@ -14,56 +14,36 @@ public class FileReaderClass {
         this.fileName = fileName;
     }
 
-    public String useScanner() {
+    public String useScanner() throws FileNotFoundException {
 
-        String content = null;
+        StringBuilder result = new StringBuilder();
 
-        try {
+        File file = new File(this.fileName);
+        Scanner reader = new Scanner(file);
 
-            StringBuilder result = new StringBuilder();
-
-            File file = new File(this.fileName);
-            Scanner reader = new Scanner(file);
-
-            while (reader.hasNextLine()) {
-                result.append(reader.nextLine());
-                result.append(System.lineSeparator());
-            }
-
-            System.out.print(result);
-            content = result.toString();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        while (reader.hasNextLine()) {
+            result.append(reader.nextLine());
+            result.append(System.lineSeparator());
         }
 
-        return content;
+        System.out.print(result);
+
+        return result.toString();
     }
 
-    public String useFileReader() {
+    public String useFileReader() throws IOException {
 
-        String content = null;
+        StringBuilder builder = new StringBuilder();
+        FileReader reader = new FileReader(this.fileName);
 
-        try {
-
-            StringBuilder builder = new StringBuilder();
-            FileReader reader = new FileReader(this.fileName);
-
-            int c;
-            while ((c = reader.read()) != -1) {
-                builder.append((char)c);
-            }
-
-            System.out.print(builder);
-            content = builder.toString();
-
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        int c;
+        while ((c = reader.read()) != -1) {
+            builder.append((char)c);
         }
 
-        return content;
+        System.out.print(builder);
+
+        return builder.toString();
 
     }
 
