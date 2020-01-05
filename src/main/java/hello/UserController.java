@@ -3,6 +3,7 @@ package hello;
 import java.util.List;
 import java.util.ArrayList;
 
+import hello.Builder.UserBuilder;
 import hello.Repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public void addSingleUser(@RequestParam(value="name") String name, @RequestParam(value = "age") int age ) {
         int userCount = this.users.size();
-        User user = new User(userCount + 1, name, age);
+        User user = new UserBuilder().id(userCount + 1).name(name).age(age).build();
         this.users.add(user);
     }
 
