@@ -24,9 +24,9 @@ import org.springframework.data.repository.CrudRepository
 @RestController
 class RateController constructor() {
     @get:RequestMapping("/rate")
-    val rates: kotlin.collections.MutableList<hello.Service.Model.ExchangeRate?>?
+    val rates: List<ExchangeRate>?
         get() {
             val service: ExchangeRateService? = ExchangeRateService()
-            return service?.getRatesViaURLConnection()
+            return service?.ratesViaURLConnection
         }
 }
