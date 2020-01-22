@@ -1,8 +1,0 @@
-package hello.MySQL.Repository;
-
-import hello.MySQL.Entity.Page;
-import org.springframework.data.repository.CrudRepository;
-
-public interface PageRepository extends CrudRepository<Page, Integer> {
-
-}
