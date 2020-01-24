@@ -3,18 +3,8 @@ package hello.Service;
 import hello.Service.Fetcher.FetchContentContext;
 import hello.Service.Fetcher.FetchContentStrategy;
 import hello.Service.Fetcher.Strategy.OkHttpStrategy;
-import hello.Service.Fetcher.Strategy.URLConnectionStrategy;
 import hello.Service.Model.ExchangeRate;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

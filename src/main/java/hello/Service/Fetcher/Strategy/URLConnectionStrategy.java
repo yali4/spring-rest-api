@@ -1,7 +1,6 @@
 package hello.Service.Fetcher.Strategy;
 
 import hello.Service.Fetcher.FetchContentStrategy;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
