@@ -1,5 +1,9 @@
 package hello.Service;
 
+import hello.Service.Fetcher.FetchContentContext;
+import hello.Service.Fetcher.FetchContentStrategy;
+import hello.Service.Fetcher.Strategy.OkHttpStrategy;
+import hello.Service.Fetcher.Strategy.URLConnectionStrategy;
 import hello.Service.Model.ExchangeRate;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,56 +20,16 @@ import java.util.List;
 
 public class ExchangeRateService {
 
-    public List<ExchangeRate> getRatesViaOkHttp() {
+    public List<ExchangeRate> getRates() {
+        FetchContentStrategy fetchContentStrategy = new OkHttpStrategy();
+        //FetchContentStrategy fetchContentStrategy = new URLConnectionStrategy();
+        FetchContentContext fetchContentContext = new FetchContentContext(fetchContentStrategy);
+        String fetchedContent = fetchContentContext.fetchContent("https://api.exchangeratesapi.io/latest");
 
-        List<ExchangeRate> result = new ArrayList<ExchangeRate>();
-
-        String url = "https://api.exchangeratesapi.io/latest";
-
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-
-            return jsonToModels(response.body().string());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        return this.transform(fetchedContent);
     }
 
-    public List<ExchangeRate> getRatesViaURLConnection() {
-
-        List<ExchangeRate> result = new ArrayList<ExchangeRate>();
-
-        try {
-            StringBuilder response = new StringBuilder();
-            URL url = new URL("https://api.exchangeratesapi.io/latest");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-            String readLine;
-            while ((readLine = reader.readLine()) != null) {
-                response.append(readLine);
-            }
-
-            reader.close();
-
-            return jsonToModels(response.toString());
-
-        } catch(Exception e) {
-            System.out.println(e);
-        }
-
-        return result;
-    }
-
-    private List<ExchangeRate> jsonToModels(String response) {
+    private List<ExchangeRate> transform(String response) {
         List<ExchangeRate> result = new ArrayList<ExchangeRate>();
         JSONObject json = new JSONObject(response);
         JSONObject rates = json.getJSONObject("rates");
